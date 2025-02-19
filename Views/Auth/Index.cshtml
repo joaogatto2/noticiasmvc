@@ -1,0 +1,45 @@
+<div class="form-group">
+    <label for="Email">Email</label>
+    <input class="form-control" type="text" name="email">
+</div>
+<div class="form-group">
+    <label for="password">Senha</label>
+    <input class="form-control" type="password" name="password">
+</div>
+<button id="login-btn" class="btn btn-primary my-2">Login</button>
+
+<div id="error" class="alert alert-danger" role="alert">
+    Erro ao realizar login.
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#login-btn').click(function (event) {
+                event.preventDefault();
+                var formData = {
+                    email: $('input[name="email"]').val(),
+                    password: $('input[name="password"]').val()
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Login", "Auth")',
+                    data: formData,
+                    success: function (response) {
+                        if (response.token) {
+                            document.cookie = "jwtToken=" + response.token + "; path=/";
+                            localStorage.setItem('jwtToken', response.token);
+                            window.location.href = '@Url.Action("Index", "Home")';
+                        } else {
+                            $('#error').show();
+                        }
+                    },
+                    error: function () {
+                        $('#error').show();
+                    }
+                });
+            });
+        });
+    </script>
+}

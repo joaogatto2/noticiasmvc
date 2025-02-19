@@ -1,0 +1,21 @@
+@model noticiasmvc.ViewModels.TagFormViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<h1>@(Model.Title)</h1>
+<form asp-action="@Model.Action">
+    <div class="form-group my-2">
+        <label asp-for="Tag.Descricao" class="control-label">Descrição</label>
+        <input asp-for="Tag.Descricao" name="descricao" class="form-control" />
+        <span asp-validation-for="Tag.Descricao" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Salvar" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a href="@Url.Action("Index", "Tags")">Voltar</a>
+</div>

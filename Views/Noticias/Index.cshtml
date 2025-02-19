@@ -1,0 +1,42 @@
+@model IEnumerable<noticiasmvc.AppContext.Entities.Noticia>
+
+@{
+    ViewData["Title"] = "Noticias";
+}
+
+<h1>Noticias</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Criar Noticia</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titulo</th>
+            <th>Texto</th>
+            <th>Usuário</th>
+            <th>Tags</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var noticia in Model)
+        {
+            <tr>
+                <td>@noticia.Id</td>
+                <td>@noticia.Titulo</td>
+                <td>@noticia.Texto</td>
+                <td>@noticia.Usuario?.Nome</td>
+                <td>@string.Join(", ", noticia.NoticiaTags.Select(x => x.Tag.Descricao))</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@noticia.Id" class="btn btn-warning">Editar</a>
+                    <form asp-action="Delete" asp-route-id="@noticia.Id" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger">Deletar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
